@@ -1,0 +1,65 @@
+// bower:scss
+// endbower
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+$enemyWidth: 30px;
+$enemyHeight: 30px;
+
+$playerWidth: 80px;
+$playerHeight: 80px;
+
+.camera {
+  position: absolute;
+  border: 3px solid #00f;  
+  overflow: scroll;
+  width: 100%; height: 100%;
+}
+.scene {
+  position: absolute;
+  border: 3px solid #00f;
+  width: 200%; height: 100%;
+  animation: 4s linear 0s infinite alternate scrollScene; 
+}
+.scene-animation {
+
+}
+.terrain {  
+  position: absolute;
+  border: 3px solid #0f0;
+  bottom: 0;
+  width: 100%; height: 15%;  
+}
+.player {
+  position: fixed;
+  bottom: 15%; left: 50%;
+  transform: translateX(-50%);
+  width: $playerWidth; height: $playerHeight;
+  background: #0f0;
+  transition: bottom 300ms;
+  &.jump {
+    bottom: 90%;
+  }
+}
+.enemy {
+  position: absolute;
+  bottom: 15%; left: 100%;
+  width: $enemyWidth; height: $enemyHeight;
+  transform: translateX(-$enemyWidth);
+  background: #f00;
+}
+
+// ANIMATION
+@keyframes scrollScene {
+  from { 
+    left: 0
+  }
+  to 
+  { 
+    left: -200%;
+  }
+}
