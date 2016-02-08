@@ -19,15 +19,14 @@ $playerHeight: 80px;
   overflow: scroll;
   width: 100%; height: 100%;
 }
-.scene {
-  position: absolute;
-  border: 3px solid #00f;
-  width: 200%; height: 100%;
-  // animation: 4s linear 0s infinite alternate scrollScene; 
-}
-.scene-animation {
-
-}
+// .scene {
+//   position: absolute;
+//   border: 3px solid #00f;
+//   width: 200%; height: 100%;
+// }
+// .scene-animation {
+// // animation: 4s linear 0s infinite alternate scrollScene; 
+// }
 .terrain {  
   position: absolute;
   border: 3px solid #0f0;
@@ -40,20 +39,33 @@ $playerHeight: 80px;
   transform: translateX(-50%);
   width: $playerWidth; height: $playerHeight;
   background: #0f0;
-  transition: bottom 300ms ease-out;
+  transition: bottom 400ms ease-in;
   &.jump {
-    bottom: 90%;
+    transition: bottom 400ms ease-out;
+    bottom: 70%;
   }
 }
 .enemy {
   position: absolute;
-  bottom: 15%; left: 100%;
+  bottom: 15%;
   width: $enemyWidth; height: $enemyHeight;
   transform: translateX(-$enemyWidth);
   background: #f00;
+  animation: 2s linear 0s scrollEnemy;
 }
 
 // ANIMATION
+@keyframes scrollEnemy {
+  from { 
+    right: -$enemyWidth;
+  }
+  to 
+  { 
+    right: 100%;
+  }
+}
+
+
 @keyframes scrollScene {
   from { 
     left: 0
