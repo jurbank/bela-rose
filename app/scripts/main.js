@@ -6,7 +6,7 @@ $(document).ready(function(){
 			enemyW,
 
 			$playerEl = $('.player'),
-			$enemyEl = $('.enemy'),
+			$enemyEl,
 			playerX,
 			playerY,
 			playerH,
@@ -69,10 +69,12 @@ function logCollision() {
 
 var enemySpawned = false;
 function spawnEnemy() {
+	$playerEl.after('<div class="enemy"></div>'); // FIRST
+	$enemyEl = $('.enemy');
 	setInterval(function(){
 		$playerEl.after('<div class="enemy"></div>');
-		enemy();
-	}, 3000)
+		$enemyEl = $('.enemy');
+	}, 1000)
 	enemySpawned = true;
 }
 
@@ -113,24 +115,24 @@ function spawnEnemy() {
 	};
 
 
-
 	function init() {
 		setTimeout(function(){
 			spawnEnemy();
+			draw();
 		}, 1000)
 	}	
 
-	init();
+	// init();
 
 	var update = function() {
 		// logCollision();
 		console.log(enemySpawned)
 		if (enemySpawned) {
 			$enemyEl.each(function(){
-				console.log($(this))
+				console.log($(this).offset().left)
 
-				if ($(el).offset().left < 0)
-					$(el).remove();
+				if ($(this).offset().left < 0)
+					$(this).remove();
 			})
 		}
 	};
@@ -143,5 +145,5 @@ function spawnEnemy() {
     }, 1000 / fps);
 	}
 	 
-	draw();
+	
 });
