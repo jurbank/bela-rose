@@ -23,7 +23,7 @@ $playerHeight: 80px;
   position: absolute;
   border: 3px solid #00f;
   width: 200%; height: 100%;
-  animation: 4s linear 0s infinite alternate scrollScene; 
+  // animation: 4s linear 0s infinite alternate scrollScene; 
 }
 .scene-animation {
 
@@ -40,7 +40,7 @@ $playerHeight: 80px;
   transform: translateX(-50%);
   width: $playerWidth; height: $playerHeight;
   background: #0f0;
-  transition: bottom 300ms;
+  transition: bottom 300ms ease-out;
   &.jump {
     bottom: 90%;
   }

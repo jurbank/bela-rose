@@ -37,17 +37,26 @@ $(document).ready(function(){
 		}
 	}
 
-	var alreadyPressed;
-	window.onkeypress = function(e){
-		if (e.keyCode == 32) {
-			$playerEl.addClass('jump');
-			window.setTimeout(function() {
-				$playerEl.removeClass('jump');	
-			}, 100);
+var alreadyPressed = false;
+
+window.onkeydown = function(e){
+	if (e.keyCode == 32) {
+
+		if (!alreadyPressed) {
 			alreadyPressed = true;
+			$playerEl.addClass('jump');
+			setTimeout(function() {
+				$playerEl.removeClass('jump');	
+				setTimeout(function(){
+					alreadyPressed = false;
+				}, 300);	// CSS animation delay
+			}, 100);
+		} else {
+			return false;
 		}
-		alreadyPressed = false;
-	};
+
+	}
+};
 
 	var fps = 1;
 	 
