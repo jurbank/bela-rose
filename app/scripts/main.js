@@ -56,16 +56,6 @@ function logCollision() {
 	}
 }
 
-// function Enemy(x, y) {
-// 	this.init(x, y);
-// }
-
-// Enemy.prototype = {
-// 	 init: function(x, y){
-// 	 	this.x = x;
-// 	 	this.y = y;
-// 	 }
-// };
 
 var enemySpawned = false;
 function spawnEnemy() {
@@ -95,9 +85,12 @@ function spawnEnemy() {
 // }());
 
 
+	var touchEnemy = false;
+
+
 	// PREVENT DOUBLE JUMP
 	var alreadyPressed = false;
-	window.onkeydown = function(e){
+	onkeydown = function(e){
 		if (e.keyCode == 32) {
 			if (!alreadyPressed) {
 				alreadyPressed = true;
@@ -106,13 +99,28 @@ function spawnEnemy() {
 					$playerEl.removeClass('jump');	
 					setTimeout(function(){
 						alreadyPressed = false;
+						if(!touchEnemy) {
+							score.updateBoard();
+						}
 					}, 400);	// CSS animation delay
 				}, 300);
 			} else {
 				return false;
 			}
 		}
-	};
+	}
+
+
+	var score = {
+		total: 0,
+		addPoint: function(){
+			this.total += 1;
+		},
+		updateBoard: function() {
+			this.addPoint();
+			$('.score-board__number').text(''+this.total+'');
+		}
+	}
 
 
 	function init() {
