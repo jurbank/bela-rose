@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
 
 	var enemyX,
@@ -17,7 +18,7 @@ $(document).ready(function(){
 
 
 
-function logCollision(enemyEl) {
+function checkCollision(enemyEl) {
 	enemyX = enemyEl.offset().left;
 	enemyW = enemyEl.width();
 
@@ -32,7 +33,7 @@ function logCollision(enemyEl) {
 
 	// console.log(distanceX)
 
-	if (distanceX == 0) {
+	if (distanceX < 10 && distanceX > 0) {
 		console.log('collisionX')
 		// if (distanceY < 10) {
 		// 	console.log('CollisionY');	
@@ -43,67 +44,32 @@ function logCollision(enemyEl) {
 	}
 }
 
-
-// function logCollision() {
-// 	if (enemySpawned) {
-// 		enemyX = $('.enemy').offset().left;
-// 		enemyY = $('.enemy').offset().top;
-// 		enemyH = $('.enemy').height();
-// 		enemyW = $('.enemy').width();
-
-// 		playerX = $('.player').offset().left;
-// 		playerY = $('.player').offset().top;
-// 		playerH = $('.player').height();
-// 		playerW = $('.player').width();
-
-// 		distanceX = enemyX - playerX;
-// 		distanceY = enemyY - playerY;
-		
-// 		// console.log('xDistance: '+distanceX +', yDistance: '+ distanceY);
-
-		// if (distanceX < 50 && distanceX > 0) {
-		// 	alert('collisionX')
-		// 	// if (distanceY < 10) {
-		// 	// 	console.log('CollisionY');	
-		// 	// }
-		// }
-// 		if (enemyX < 0) {
-
-// 		}
-// 	}
+	
+// function percentToPixel(el, perc) {
+//   return (el.outerWidth()/100)* parseFloat(perc);
 // }
 
-
-
-
-
-var enemySpawned = false;
-function spawnEnemy() {
-	$playerEl.after('<div class="enemy"></div>'); // FIRST
-	$enemyEl = $('.enemy');
-	setInterval(function(){
-		$playerEl.after('<div class="enemy"></div>');
+	var enemySpawned = false;
+	function spawnEnemy() {
+		$playerEl.after('<div class="enemy"></div>'); // FIRST
 		$enemyEl = $('.enemy');
-	}, 1000)
-	enemySpawned = true;
-}
+		setInterval(function(){
+			$playerEl.after('<div class="enemy"></div>');
+			$enemyEl = $('.enemy');
+			TweenLite.to($enemyEl, 2, {
+				// right: '45.5%',
+				right: '100%',
+				ease: Linear.easeNone,
+				onUpdate: function(){
+  				checkCollision($enemyEl);
+				}
+		});
+						// console.log($enemyEl.offset().left)
+		}, 1000)
+		enemySpawned = true;		
+	}
 
-
-
-
-// function doSomething() {
-// 	console.log('something')
-// 	// spawnEnemy();
-// }
-
-// (function loop() {
-//     var rand = Math.round(Math.random() * (4000 - 1000)) + 1000;
-//     setTimeout(function() {
-//             doSomething();
-//             loop();  
-//     }, rand);
-// }());
-
+	// spawnEnemy();
 
 	var touchEnemy = false;
 
@@ -130,7 +96,6 @@ function spawnEnemy() {
 		}
 	}
 
-
 	var score = {
 		total: 0,
 		addPoint: function(){
@@ -143,32 +108,5 @@ function spawnEnemy() {
 	}
 
 
-	function init() {
-		setTimeout(function(){
-			spawnEnemy();
-			draw();
-		}, 1000)
-	}	
-
-	init();
-
-	var update = function() {		
-		if (enemySpawned) {
-			$enemyEl.each(function(){
-				logCollision($(this));
-				if ($(this).offset().left < 0)
-					$(this).remove();
-			})
-		}
-	};
-
-	var fps = 20;
-	function draw() {			
-		update();
-    setTimeout(function() {
-    	requestAnimationFrame(draw);
-    }, 1000 / fps);
-	}
 	 
-	
 });

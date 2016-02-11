@@ -7,11 +7,11 @@
   padding: 0;
 }
 
-$enemyWidth: 30px;
-$enemyHeight: 30px;
+$enemyWidth: 3%;
+$enemyHeight: 6%;
 
-$playerWidth: 80px;
-$playerHeight: 80px;
+$playerWidth: 3%;
+$playerHeight: 14%;
 
 .camera {
   position: absolute;
@@ -55,10 +55,11 @@ $playerHeight: 80px;
 .enemy {
   position: absolute;
   bottom: 15%;
+  right: -$enemyWidth;
   width: $enemyWidth; height: $enemyHeight;
-  transform: translateX(-$enemyWidth);
+  // transform: translateX(-$enemyWidth);
   background: #f00;
-  animation: 2s linear 0s scrollEnemy;
+  // animation: 2s linear 0s scrollEnemy;
 }
 
 // ANIMATION
