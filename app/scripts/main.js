@@ -16,11 +16,23 @@ $(document).ready(function(){
 			distanceX,
 			distanceY;
 
+window.onresize = function() {
+	refreshGameSize();
+}
 
+var windowW = window.innerWidth;
+function refreshGameSize() {
+	windowW = window.innerWidth;
+	console.log(windowW);
 
+}
+
+var collisionDetected = false;
 function checkCollision(enemyEl) {
 	enemyX = enemyEl.offset().left;
-	enemyW = enemyEl.width();
+	enemyY = enemyEl.offset().top;
+	enemyW = enemyEl.width();	
+	enemyH = enemyEl.height();	
 
 	playerX = $('.player').offset().left;
 	playerY = $('.player').offset().top;
@@ -28,16 +40,19 @@ function checkCollision(enemyEl) {
 	playerW = $('.player').width();
 
 	distanceX = enemyX - playerX;
+	// distanceY= enemyY - playerY;
 	
 	// console.log('xDistance: '+distanceX +', yDistance: '+ distanceY);
 
 	// console.log(distanceX)
 
+	
+
 	if (distanceX < 10 && distanceX > 0) {
-		console.log('collisionX')
-		// if (distanceY < 10) {
-		// 	console.log('CollisionY');	
-		// }
+		if (playerY - enemyH) {
+			console.log('top of enemy')
+		}
+		// score.lost();
 	}
 	if (enemyX < 0) {
 
@@ -50,22 +65,26 @@ function checkCollision(enemyEl) {
 // }
 
 	var enemySpawned = false;
+	var tween;
+	var enemyInterval;
 	function spawnEnemy() {
 		$playerEl.after('<div class="enemy"></div>'); // FIRST
 		$enemyEl = $('.enemy');
-		setInterval(function(){
+		enemyInterval = setInterval(function(){
 			$playerEl.after('<div class="enemy"></div>');
 			$enemyEl = $('.enemy');
-			TweenLite.to($enemyEl, 2, {
-				// right: '45.5%',
-				right: '100%',
+			tween = TweenLite.to($enemyEl, 2, {
+				right: windowW,
 				ease: Linear.easeNone,
 				onUpdate: function(){
   				checkCollision($enemyEl);
+  				if ($enemyEl.offset().left < 0) {
+  					$enemyEl.remove();
+  				}
 				}
 		});
 						// console.log($enemyEl.offset().left)
-		}, 1000)
+		}, 3000)
 		enemySpawned = true;		
 	}
 
@@ -100,6 +119,11 @@ function checkCollision(enemyEl) {
 		total: 0,
 		addPoint: function(){
 			this.total += 1;
+		},
+		lost: function(){
+			console.log('lost');
+			tween.kill();
+			clearInterval(enemyInterval)
 		},
 		updateBoard: function() {
 			this.addPoint();
