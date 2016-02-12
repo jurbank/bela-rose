@@ -12,6 +12,7 @@ $(document).ready(function(){
 			playerY,
 			playerH,
 			playerW,
+			playerBottom,
 
 			distanceX,
 			distanceY;
@@ -23,7 +24,7 @@ window.onresize = function() {
 var windowW = window.innerWidth;
 function refreshGameSize() {
 	windowW = window.innerWidth;
-	console.log(windowW);
+	// console.log(windowW);
 
 }
 
@@ -38,36 +39,27 @@ function checkCollision(enemyEl) {
 	playerY = $('.player').offset().top;
 	playerH = $('.player').height();
 	playerW = $('.player').width();
+	playerBottom = playerY+playerH;
+
 
 	distanceX = enemyX - playerX;
-	// distanceY= enemyY - playerY;
-	
-	// console.log('xDistance: '+distanceX +', yDistance: '+ distanceY);
 
-	// console.log(distanceX)
-
-	
-
-	if (distanceX < 10 && distanceX > 0) {
-		if (playerY - enemyH) {
-			console.log('top of enemy')
-		}
-		// score.lost();
-	}
-	if (enemyX < 0) {
-
+	if ((playerBottom > enemyY) || (playerBottom == enemyY)) {
+		if (distanceX < playerW && distanceX > 0) {
+			end();
+		}			
 	}
 }
 
-	
-// function percentToPixel(el, perc) {
-//   return (el.outerWidth()/100)* parseFloat(perc);
-// }
+
 
 	var enemySpawned = false;
 	var tween;
 	var enemyInterval;
 	function spawnEnemy() {
+		// if (onKeyDownRestart) {
+		// 	$('.enemy').remove();
+		// }
 		$playerEl.after('<div class="enemy"></div>'); // FIRST
 		$enemyEl = $('.enemy');
 		enemyInterval = setInterval(function(){
@@ -82,14 +74,13 @@ function checkCollision(enemyEl) {
   					$enemyEl.remove();
   				}
 				}
-		});
-						// console.log($enemyEl.offset().left)
+			});
 		}, 3000)
 		enemySpawned = true;		
 	}
 
-	// spawnEnemy();
-
+		
+	var onKeyDownRestart = false; 
 	var touchEnemy = false;
 
 
@@ -112,25 +103,43 @@ function checkCollision(enemyEl) {
 			} else {
 				return false;
 			}
+			if (onKeyDownRestart) {
+				console.log('true')
+				$('.enemy').remove();
+				init()
+				return onKeyDownRestart = false; 
+			}
 		}
 	}
 
+	
 	var score = {
 		total: 0,
 		addPoint: function(){
 			this.total += 1;
 		},
-		lost: function(){
-			console.log('lost');
-			tween.kill();
-			clearInterval(enemyInterval)
-		},
+		// lost: function(){
+		// 	this.total = 0;
+		// },
 		updateBoard: function() {
 			this.addPoint();
 			$('.score-board__number').text(''+this.total+'');
 		}
 	}
 
+	function end() {
+		$('.score-board__number').text('YOU LOST');
+		score.total = 0;
+		tween.kill();
+		clearInterval(enemyInterval);
+		onKeyDownRestart = true;
+	}
 
+	function init() {
+		spawnEnemy();
+	}
+
+
+	init();
 	 
 });
